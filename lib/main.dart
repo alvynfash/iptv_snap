@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Colors.black,
-          textTheme: GoogleFonts.latoTextTheme(
+          textTheme: GoogleFonts.newsCycleTextTheme(
             Theme.of(context).textTheme,
           ),
         ),
