@@ -36,12 +36,12 @@ dependencies:
   flutter_spinkit: ^4.1.2
   transparent_image:
   
-  flappy_search_bar: 1.4.1
+  flappy_search_bar: 1.4.1 
   percent_indicator: ^2.1.5
   
   file_picker: ^1.13.0
   m3u: ^1.0.3
-  flutter_vlc_player: ^3.0.3
+  flutter_vlc_player: ^3.0.3 
     
 dev_dependencies:
   flutter_test:
@@ -54,6 +54,7 @@ flutter:
   assets:
     - assets/images/
     - assets/videos/
+    - assets/files/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

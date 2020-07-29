@@ -8,6 +8,7 @@ Widget groupCard({
 }) {
   return GestureDetector(
     onTap: () => onTap(),
+    // v1
     // child: Card(
     //   child: ListTile(
     //     leading: CircleAvatar(
@@ -21,28 +22,30 @@ Widget groupCard({
     // ),
 
     child: Container(
-      height: 50,
+      height: 70,
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.s,
         children: [
           Container(
             width: 8,
             color: Colors.blue,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
-            child: Text(
-              '${name.capitalizeFirstCharactersOnly}',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '(${channelsCount.toString()})',
+                  style: TextStyle(color: Colors.blue, fontSize: 10),
+                ),
+                Text(
+                  '${name.capitalizeFirstCharactersOnly}',
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 24),
+                ),
+              ],
             ),
           ),
-          Text(
-            '(${channelsCount.toString()})',
-            style: TextStyle(
-              color: Colors.blue,
-            ),
-          ),
-          // CircleAvatar(child: Text(channelsCount.toString())),
         ],
       ),
     ),

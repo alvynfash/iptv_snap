@@ -7,8 +7,6 @@ import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import 'package:iptv_snap/extensions.dart';
-
 import 'controls/group_tile.dart';
 import 'controls/tabBar_Item.dart';
 
@@ -46,24 +44,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
         ),
       ),
-      floatingActionButton: Observer(
-        builder: (_) => vm.hasTvGroups
-            ? FloatingActionButton(
-                onPressed: () async =>
-                    await Get.bottomSheet(_buildChannelsList()),
-                // onPressed: () async => await Get.bottomSheet(_buildChannelsList()).then(
-                //     (value) async => await Future.delayed(Duration(seconds: 2))
-                //         .then((value) async => {}
-                //await _channelScrollController?.animateTo(
-                // 800.0,
-                // duration: Duration(seconds: 2),
-                // curve: Curves.fastLinearToSlowEaseIn,
-                // ),
-                // )),
-                child: Icon(Icons.apps),
-              )
-            : Container(),
-      ),
+      // floatingActionButton: Observer(
+      //   builder: (_) => vm.hasTvGroups
+      //       ? FloatingActionButton(
+      //           onPressed: () async =>
+      //               await Get.bottomSheet(_buildChannelsList()),
+      //           // onPressed: () async => await Get.bottomSheet(_buildChannelsList()).then(
+      //           //     (value) async => await Future.delayed(Duration(seconds: 2))
+      //           //         .then((value) async => {}
+      //           //await _channelScrollController?.animateTo(
+      //           // 800.0,
+      //           // duration: Duration(seconds: 2),
+      //           // curve: Curves.fastLinearToSlowEaseIn,
+      //           // ),
+      //           // )),
+      //           child: Icon(Icons.apps),
+      //         )
+      //       : Container(),
+      // ),
     );
   }
 
@@ -130,22 +128,29 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Observer(
-        builder: (context) => ListView.separated(
-          itemCount: vm.tvGroupCount,
-          itemBuilder: (_, index) {
-            final key = vm.sortedTvGroupKey[index];
+        builder: (context) => vm.hasTvGroups
+            ? ListView.separated(
+                itemCount: vm.tvGroupCount,
+                itemBuilder: (_, index) {
+                  final key = vm.sortedTvGroupKey[index];
 
-            return groupCard(
-              name: key,
-              channelsCount: vm.tvGroups[key].length,
-              onTap: () => Get.toNamed(
-                'channels',
-                arguments: vm.tvGroups[key],
-              ),
-            );
-          },
-          separatorBuilder: (_, index) => Container(height: 4),
-        ),
+                  return groupCard(
+                    name: key,
+                    channelsCount: vm.tvGroups[key].length,
+                    onTap: () => Get.toNamed(
+                      'channels',
+                      arguments: vm.tvGroups[key],
+                    ),
+                  );
+                },
+                separatorBuilder: (_, index) => Container(height: 4),
+              )
+            : Center(
+                // child: UnDraw(
+                //   illustration: UnDrawIllustration.a_moment_to_relax,
+                //   color: Colors.red,
+                // ),
+                ),
       ),
     );
   }
@@ -188,52 +193,32 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildChannelsList() {
-    channelScrollController = ScrollController();
-
-    return Container(
-      padding: const EdgeInsets.only(bottom: 32),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(.9),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: Observer(
-        builder: (_) => ListView.separated(
-          padding: const EdgeInsets.all(32),
-          controller: channelScrollController,
-          itemCount: vm.tvChannels.length,
-          itemBuilder: (_, index) => GestureDetector(
-            onTap: () {
-              print('${vm.tvChannels[index]} Seleceted');
-              // Get.back();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  vm.tvChannels[index].title.capitalizeFirstCharactersOnly,
-                  style: TextStyle(
-                    fontSize: index == 3 ? 40 : 26,
-                    color: index == 3 ? Colors.blue : Colors.white,
-                  ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 16),
-                //   child: Container(
-                //     width: 4,
-                //     height: 50,
-                //     color: index == 11 ? Colors.blue : Colors.grey,
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-          separatorBuilder: (_, index) => SizedBox(height: 16),
-        ),
-      ),
-    );
-  }
+  // Widget _buildChannelsList() {
+  //   return Container(
+  //     padding: const EdgeInsets.only(bottom: 32),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(30),
+  //         topRight: Radius.circular(30),
+  //       ),
+  //     ),
+  //     child: ListView(
+  //       padding: const EdgeInsets.all(8),
+  //       children: [
+  //         ListTile(
+  //           leading: Icon(
+  //             Icons.email,
+  //             // color: ScfmApp.greenTheme,
+  //           ),
+  //           title: Text('Add more regions'),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.only(left: 16, right: 16),
+  //           child: Divider(),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

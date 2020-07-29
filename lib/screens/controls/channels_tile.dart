@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:iptv_snap/models/m3uGenericEntryExt.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 Widget channelTile({@required M3uGenericEntryExt channel}) {
@@ -52,21 +51,33 @@ Widget channelTile({@required M3uGenericEntryExt channel}) {
                     channel.title,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
-                  Text(
-                    'College Basketball',
-                    style: TextStyle(fontSize: 14),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.green,
+                        radius: 4,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: Text(
+                          'Uptime',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '9:00 am - 1:00 pm',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  LinearPercentIndicator(
-                    progressColor: Colors.blue,
-                    backgroundColor: Colors.grey[300],
-                    lineHeight: 3.5,
-                    percent: .82,
-                    padding: EdgeInsets.only(top: 8),
-                  ),
+                  // Text(
+                  //   '9:00 am - 1:00 pm',
+                  //   style: TextStyle(fontSize: 12),
+                  // ),
+                  // LinearPercentIndicator(
+                  //   progressColor: Colors.blue,
+                  //   backgroundColor: Colors.grey[300],
+                  //   lineHeight: 3.5,
+                  //   percent: .82,
+                  //   padding: EdgeInsets.only(top: 8),
+                  // ),
                 ],
               ),
             ),

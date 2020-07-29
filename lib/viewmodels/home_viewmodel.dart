@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 import 'base_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +95,46 @@ abstract class HomeViewModelBase extends BaseViewModel with Store {
   }
 
   Future _checkDB() async {
-    setIsLoading(true);
-    await Future.delayed(Duration(seconds: 2));
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+
+      var diffDays = DateTime(2020, 08, 01).difference(DateTime.now()).inDays;
+      if (diffDays < 0) {
+        await Future.delayed(Duration(seconds: 2));
+        Get.defaultDialog(
+            title: 'Sorry',
+            middleText:
+                'Seems like your trial has expired. \nYou can still import your playlist or \ncontact +33 75 41 58 56 5 ');
+        return;
+      }
+
+      final fileContent =
+          await rootBundle.loadString('assets/files/playlist.m3u');
+      final parsedResult = await parseFile(fileContent);
+
+      _savedList.clear();
+      _savedList.addAll(
+          parsedResult.map((result) => M3uGenericEntryExt(result)).toList());
+
+      //todo: save to reactive db that is observed to update the observable properties of this vm
+      channels.clear();
+      loadMoreChannels(selectedChannel: channels);
+
+      var scExt =
+          sortedCategories(entries: parsedResult, attributeName: 'group-title')
+              .map((key, value) => MapEntry<String, List<M3uGenericEntryExt>>(
+                  key, value.map((e) => M3uGenericEntryExt(e)).toList()));
+
+      groups.clear();
+      groups.addAll(scExt);
+
+      channelGroups.clear();
+      channelGroups.addAll(scExt);
+    } catch (e) {
+      print("ERROR - _checkDB() : ${e.toString()}");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   @action
@@ -185,14 +225,3 @@ const channelsList = [
   "http://pro.waldi2017.com:8789/live/110020965298006/61218131/780.m3u8",
   "http://pro.waldi2017.com:8789/live/110020965298006/61218131/779.m3u8",
 ];
-
-var lastWatched = List.generate(
-  10,
-  (index) => M3uGenericEntryExt(M3uGenericEntry()
-    ..title = 'some Title'
-    ..link =
-        ' "http://pro.waldi2017.com:8789/live/110020965298006/61218131/788.m3u8",'
-    ..attributes = {
-      'group-title': 'unknown',
-    }),
-);
